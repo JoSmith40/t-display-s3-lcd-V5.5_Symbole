@@ -12,16 +12,16 @@
 #include "iot_button.h"
 #include "button_gpio.h"
 
-
+/*
 #if defined CONFIG_LV_USE_DEMO_BENCHMARK
 #include "lvgl__lvgl/demos/benchmark/lv_demo_benchmark.h"
 #elif defined CONFIG_LV_USE_DEMO_STRESS
 #include "lvgl__lvgl/demos/stress/lv_demo_stress.h"
 #endif
+*/
+
 
 #define TAG "main"
-
-
 
 // used for setup_test_ui() function
 char *power_icon = LV_SYMBOL_POWER;
@@ -233,7 +233,7 @@ static void ui_lvgl_demos_task(void *pvParam) {
     esp_timer_create(&lvgl_tick_timer_args, &tick_timer);
     esp_timer_start_periodic(tick_timer, LVGL_TICK_PERIOD_MS * 1000);
 
-
+/*
     // start the lvgl demos
 #if defined CONFIG_LV_USE_DEMO_STRESS
     // if you specified CONFIG_LV_USE_DEMO_STRESS in sdkconfig, it will run lv_demo_stress
@@ -242,6 +242,8 @@ static void ui_lvgl_demos_task(void *pvParam) {
     // if you specified CONFIG_LV_USE_DEMO_BENCHMARK in sdkconfig, it will run lv_demo_benchmark
     lv_demo_benchmark();
 #endif
+
+*/
 
     // infinite loop that handles the lv_timer_handler api calls
     // similar logic to lvgl port
@@ -270,7 +272,8 @@ void app_main(void) {
     // otherwise you can set it to true to turn on the backlight at lcd init
     lcd_init(&disp_handle, false);
 
-#if defined CONFIG_LV_USE_DEMO_BENCHMARK || defined CONFIG_LV_USE_DEMO_STRESS
+    /*
+    #if defined CONFIG_LV_USE_DEMO_BENCHMARK || defined CONFIG_LV_USE_DEMO_STRESS
     lcd_set_brightness_step(100);
     // configure a FreeRTOS task, pinned to the second core (core 0 should be used for hw such as wifi, bt etc)
     TaskHandle_t lvgl_demo_task_hdl = NULL;
@@ -280,6 +283,8 @@ void app_main(void) {
         vTaskDelay(pdMS_TO_TICKS(500));
     }
 #else
+    */
+
     // otherwise it will show my example
 
 
@@ -304,5 +309,5 @@ void app_main(void) {
     // de-initialize lcd and other components
     // lvgl_port_remove_disp(disp_handle);
 
-#endif
+//#endif
 }
