@@ -19,7 +19,7 @@
 #include "lvgl__lvgl/demos/stress/lv_demo_stress.h"
 #endif
 
-#define TAG "ESP-IDF-T-Display-S3-Example"
+#define TAG "main"
 
 #define NUM_BUTTONS 2
 
@@ -48,6 +48,11 @@ char *battery_symbols[5] = {
         LV_SYMBOL_BATTERY_FULL
 };
 
+char *wlan_icon = LV_SYMBOL_WIFI;
+char *bluetooth_icon = LV_SYMBOL_BLUETOOTH;
+char *gps_icon = LV_SYMBOL_GPS;
+
+
 TaskHandle_t lcd_brightness_task_hdl;
 esp_timer_handle_t lcd_brightness_timer_hdl;
 
@@ -63,6 +68,10 @@ lv_obj_t *lbl_btn_1;
 lv_obj_t *lbl_btn_2;
 lv_obj_t *screen_brightness_slider;
 lv_obj_t *screen_brightness;
+
+lv_obj_t *lbl_wlan_icon;
+lv_obj_t *lbl_bluetooth_icon;
+lv_obj_t *lbl_gps_icon;
 
 static int get_button_idx(button_handle_t btn_hdl) {
     for (int i = 0; i < NUM_BUTTONS; i++) {
@@ -179,6 +188,23 @@ void ui_init() {
     lbl_power_icon = lv_label_create(top_bar);
     lv_obj_align(lbl_power_icon, LV_ALIGN_BOTTOM_RIGHT, 0, 5);
 
+
+
+
+
+    lbl_wlan_icon = lv_label_create(top_bar);
+    lv_obj_align(lbl_wlan_icon, LV_ALIGN_BOTTOM_RIGHT, -25, 5);
+
+    lbl_bluetooth_icon = lv_label_create(top_bar);
+    lv_obj_align(lbl_bluetooth_icon, LV_ALIGN_BOTTOM_RIGHT, -50, 5);
+
+    lbl_gps_icon = lv_label_create(top_bar);
+    lv_obj_align(lbl_gps_icon, LV_ALIGN_BOTTOM_RIGHT, -75, 5);
+
+
+
+
+
     lbl_battery_pct = lv_label_create(top_bar);
     lv_obj_align(lbl_battery_pct, LV_ALIGN_BOTTOM_LEFT, 0, 5);
 
@@ -240,6 +266,12 @@ static void update_ui() {
     }
 
     lv_label_set_text(lbl_power_icon, power_icon);
+
+
+
+    lv_label_set_text(lbl_wlan_icon, wlan_icon);
+    lv_label_set_text(lbl_bluetooth_icon, bluetooth_icon);
+    lv_label_set_text(lbl_gps_icon, gps_icon);
 }
 
 

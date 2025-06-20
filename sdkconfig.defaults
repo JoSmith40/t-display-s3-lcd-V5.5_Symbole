@@ -21,11 +21,14 @@ CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
 CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
 
 # PCLK frequency optimizations when Frame Buffer is allocated from the PSRAM and fetched by EDMA
+# DE: Optimierung der PCLK-Frequenz, wenn der Frame Buffer vom PSRAM zugewiesen und von EDMA abgerufen wird
 # Refer to https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-reference/peripherals/lcd.html#bounce-buffer-with-single-psram-frame-buffer
 CONFIG_SPIRAM_FETCH_INSTRUCTIONS=y
 CONFIG_SPIRAM_RODATA=y
 # Enabling the following configurations can help increase the PCLK frequency in the case when
 # the Frame Buffer is allocated from the PSRAM and fetched by EDMA
+# DE: Die Aktivierung der folgenden Konfigurationen kann dazu beitragen, die PCLK-Frequenz in dem Fall zu erhöhen, wenn
+# der Frame Buffer aus dem PSRAM zugewiesen und von EDMA abgeholt wird
 # source: https://github.com/espressif/esp-idf/blob/master/examples/peripherals/lcd/i80_controller/sdkconfig.defaults.esp32s3
 CONFIG_SPIRAM_XIP_FROM_PSRAM=y
 
@@ -52,8 +55,11 @@ CONFIG_LV_FONT_MONTSERRAT_24=y
 
 # Either set (CONFIG_LV_USE_DEMO_BENCHMARK and CONFIG_LV_USE_DEMO_WIDGETS) or CONFIG_LV_USE_DEMO_STRESS to y
 # Commenting out both will display my lcd brightness example
+# DE: Entweder setzen Sie (CONFIG_LV_USE_DEMO_BENCHMARK und CONFIG_LV_USE_DEMO_WIDGETS) oder CONFIG_LV_USE_DEMO_STRESS auf y
+# Wenn man beide auskommentiert, wird mein Beispiel für die Helligkeit des LCD-Bildschirms angezeigt.
 CONFIG_LV_USE_DEMO_STRESS=n
 
 # both options below are required for benchmark
+# DE: beide Optionen unten sind für den Benchmark erforderlich
 CONFIG_LV_USE_DEMO_BENCHMARK=n
 CONFIG_LV_USE_DEMO_WIDGETS=n
