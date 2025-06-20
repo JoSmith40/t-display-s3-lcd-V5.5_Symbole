@@ -79,7 +79,7 @@ void ui_init() {
     top_bar = lv_obj_create(lv_screen_active());
     lv_obj_align(top_bar, LV_ALIGN_TOP_RIGHT, 0, 0);
     lv_obj_set_width(top_bar, LCD_H_RES - 50);
-    lv_obj_set_height(top_bar, LCD_V_RES - 50);
+    lv_obj_set_height(top_bar, 40);
     lv_obj_remove_flag(top_bar, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_style_radius(top_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(top_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -87,38 +87,14 @@ void ui_init() {
     lv_obj_set_style_bg_color(top_bar, lv_color_hex(0xFFDDB3), LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lbl_power_mode = lv_label_create(top_bar);
-    lv_obj_align(lbl_power_mode, LV_ALIGN_TOP_LEFT, 0, 0);
+    lv_obj_align(lbl_power_mode, LV_ALIGN_TOP_LEFT, 0, -10); // Horizontal, Vertikal alignment
+
 
     lbl_voltage = lv_label_create(top_bar);
-    lv_obj_align(lbl_voltage, LV_ALIGN_TOP_RIGHT, 0, 0);
+    lv_obj_align(lbl_voltage, LV_ALIGN_TOP_RIGHT, 0, 5);
 
     lbl_power_icon = lv_label_create(top_bar);
-    lv_obj_align(lbl_power_icon, LV_ALIGN_BOTTOM_RIGHT, 0, 5);
-
-
-
-
-
-    lbl_wlan_icon = lv_label_create(top_bar);
-    lv_obj_align(lbl_wlan_icon, LV_ALIGN_BOTTOM_RIGHT, -25, 5);
-
-    lbl_bluetooth_icon = lv_label_create(top_bar);
-    lv_obj_align(lbl_bluetooth_icon, LV_ALIGN_BOTTOM_RIGHT, -50, 5);
-
-    lbl_gps_icon = lv_label_create(top_bar);
-    lv_obj_align(lbl_gps_icon, LV_ALIGN_BOTTOM_RIGHT, -75, 5);
-
-    lbl_audio_icon = lv_label_create(top_bar);
-    lv_obj_align(lbl_audio_icon, LV_ALIGN_BOTTOM_RIGHT, -100, 5);
-
-    lbl_video_icon = lv_label_create(top_bar);
-    lv_obj_align(lbl_video_icon, LV_ALIGN_BOTTOM_RIGHT, -125, 5);
-
-    lbl_list_icon = lv_label_create(top_bar);
-    lv_obj_align(lbl_list_icon, LV_ALIGN_BOTTOM_RIGHT, -150, 5);
-
-
-
+    lv_obj_align(lbl_power_icon, LV_ALIGN_BOTTOM_RIGHT, 0, -10);
 
 
     lbl_battery_pct = lv_label_create(top_bar);
@@ -126,13 +102,35 @@ void ui_init() {
 
     bottom_bar = lv_obj_create(lv_screen_active());
     lv_obj_align(bottom_bar, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
-    lv_obj_set_width(bottom_bar, LCD_H_RES - 50);
-    lv_obj_set_height(bottom_bar, 50);
+    lv_obj_set_width(bottom_bar, LCD_H_RES - 50);                                                   // Set width
+    lv_obj_set_height(bottom_bar, 130);
     lv_obj_remove_flag(bottom_bar, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_style_radius(bottom_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(bottom_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(bottom_bar, 255, LV_PART_MAIN | LV_STATE_DEFAULT);                      // Full opacity
     lv_obj_set_style_bg_color(bottom_bar, lv_color_hex(0xADD8E6), LV_PART_MAIN | LV_STATE_DEFAULT);
+
+
+
+    lbl_wlan_icon = lv_label_create(bottom_bar);
+    lv_obj_align(lbl_wlan_icon, LV_ALIGN_TOP_RIGHT, 0, 0);
+
+    lbl_bluetooth_icon = lv_label_create(bottom_bar);
+    lv_obj_align(lbl_bluetooth_icon, LV_ALIGN_TOP_RIGHT, -25, 0);
+
+    lbl_gps_icon = lv_label_create(bottom_bar);
+    lv_obj_align(lbl_gps_icon, LV_ALIGN_TOP_RIGHT, -50, 0);
+
+    lbl_audio_icon = lv_label_create(bottom_bar);
+    lv_obj_align(lbl_audio_icon, LV_ALIGN_TOP_RIGHT, -75, 0);
+
+    lbl_video_icon = lv_label_create(bottom_bar);
+    lv_obj_align(lbl_video_icon, LV_ALIGN_TOP_RIGHT, -100, 0);
+
+    lbl_list_icon = lv_label_create(bottom_bar);
+    lv_obj_align(lbl_list_icon, LV_ALIGN_BOTTOM_RIGHT, -125, 0);
+
+
 
 }
 
@@ -147,7 +145,7 @@ static void update_ui() {
     if (on_usb_power) {
         power_icon = LV_SYMBOL_USB;
         lv_label_set_text(lbl_power_mode, "USB Power");
-        lv_label_set_text(lbl_battery_pct, "----------");
+        lv_label_set_text(lbl_battery_pct, "");
     } else {
         power_icon = battery_symbols[current_battery_symbol_idx];
         if (battery_percentage > 100) {
