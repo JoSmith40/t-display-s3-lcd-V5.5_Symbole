@@ -1,6 +1,5 @@
 ## IDF Component Manager Manifest File
 dependencies:
-  espressif/button: "^4.0.0"
   espressif/esp_lvgl_port:
     # button component not compatible with 4.0.0
     # fixed in https://github.com/espressif/esp-bsp/commit/f05983f11fc329580b3e57aefa1f4491ca78b62e
