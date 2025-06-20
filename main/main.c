@@ -12,14 +12,6 @@
 #include "iot_button.h"
 #include "button_gpio.h"
 
-/*
-#if defined CONFIG_LV_USE_DEMO_BENCHMARK
-#include "lvgl__lvgl/demos/benchmark/lv_demo_benchmark.h"
-#elif defined CONFIG_LV_USE_DEMO_STRESS
-#include "lvgl__lvgl/demos/stress/lv_demo_stress.h"
-#endif
-*/
-
 
 #define TAG "main"
 
@@ -128,7 +120,7 @@ void ui_init() {
     lv_obj_align(lbl_video_icon, LV_ALIGN_TOP_RIGHT, -100, 0);
 
     lbl_list_icon = lv_label_create(bottom_bar);
-    lv_obj_align(lbl_list_icon, LV_ALIGN_BOTTOM_RIGHT, -125, 0);
+    lv_obj_align(lbl_list_icon, LV_ALIGN_TOP_RIGHT, -125, 0);
 
 
 
@@ -233,17 +225,6 @@ static void ui_lvgl_demos_task(void *pvParam) {
     esp_timer_create(&lvgl_tick_timer_args, &tick_timer);
     esp_timer_start_periodic(tick_timer, LVGL_TICK_PERIOD_MS * 1000);
 
-/*
-    // start the lvgl demos
-#if defined CONFIG_LV_USE_DEMO_STRESS
-    // if you specified CONFIG_LV_USE_DEMO_STRESS in sdkconfig, it will run lv_demo_stress
-    lv_demo_stress();
-#elif defined CONFIG_LV_USE_DEMO_BENCHMARK
-    // if you specified CONFIG_LV_USE_DEMO_BENCHMARK in sdkconfig, it will run lv_demo_benchmark
-    lv_demo_benchmark();
-#endif
-
-*/
 
     // infinite loop that handles the lv_timer_handler api calls
     // similar logic to lvgl port
@@ -270,22 +251,8 @@ void app_main(void) {
     // initialize the LCD
     // don't turn on backlight yet - demo of gradual brightness increase is shown below
     // otherwise you can set it to true to turn on the backlight at lcd init
-    lcd_init(&disp_handle, false);
-
-    /*
-    #if defined CONFIG_LV_USE_DEMO_BENCHMARK || defined CONFIG_LV_USE_DEMO_STRESS
-    lcd_set_brightness_step(100);
-    // configure a FreeRTOS task, pinned to the second core (core 0 should be used for hw such as wifi, bt etc)
-    TaskHandle_t lvgl_demo_task_hdl = NULL;
-    xTaskCreatePinnedToCore(ui_lvgl_demos_task, "ui_lvgl_demos_task", 4096 * 2, NULL, 0, &lvgl_demo_task_hdl, 1);
-    vTaskDelay(pdMS_TO_TICKS(5000));
-    for(;;) {
-        vTaskDelay(pdMS_TO_TICKS(500));
-    }
-#else
-    */
-
-    // otherwise it will show my example
+    //lcd_init(&disp_handle, false);
+    lcd_init(&disp_handle, true);
 
 
     // Configure a periodic timer to update the battery voltage, brightness level etc
@@ -304,10 +271,8 @@ void app_main(void) {
 
     // demonstrate the lcd brightness fade using aw9364 driver
     lcd_set_brightness_pct_fade(100,3000);
-//    vTaskDelay(pdMS_TO_TICKS(100));
 
     // de-initialize lcd and other components
     // lvgl_port_remove_disp(disp_handle);
 
-//#endif
 }
