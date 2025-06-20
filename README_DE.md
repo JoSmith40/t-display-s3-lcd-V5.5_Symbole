@@ -19,7 +19,7 @@ Vielen Dank für die sehr gute Arbeit, Hiruna!
   * LVGL 9.2.x
 
 
-## Fähigkeiten
+## Eigenschaften
 
 Dieses Projekt demonstriert die Zusammenhänge:
 
@@ -27,3 +27,24 @@ Dieses Projekt demonstriert die Zusammenhänge:
 * Konfiguration von LVGL/LVGL-Port und Darstellung von Symbolen
 * Steuerung der Bildschirmhelligkeit mit [hiruna/esp-idf-aw9364](https://github.com/hiruna/esp-idf-aw9364.git)
   16-stufige Helligkeitsregelung
+
+
+## Ausgabe:
+```
+I (673) main_task: Calling app_main()
+I (676) esp_idf_t_display_s3: Configuring LCD PWR GPIO...
+I (676) LVGL: Starting LVGL task
+I (681) esp_idf_t_display_s3: Configuring LCD RD GPIO...
+I (689) esp_idf_t_display_s3: Configuring LCD Brightness...
+I (695) esp_idf_t_display_s3: aw9364_init
+I (698) esp_idf_t_display_s3: Configuring battery monitor...
+I (704) esp_idf_t_display_s3: Initializing Intel 8080 bus...
+I (709) esp_idf_t_display_s3: Initializing ST7789 LCD Driver...
+I (835) esp_idf_t_display_s3: Adding display driver to lvgl port...
+I (837) main_task: Returned from app_main()
+```
+
+
+  ## License
+  - Copyright (c) 2023 Hiruna Wijesinghe (MIT License)
+  - Copyright (c) 2025 JoSmith40 (Apache License Version 2.0)
