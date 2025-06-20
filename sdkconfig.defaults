@@ -57,9 +57,9 @@ CONFIG_LV_FONT_MONTSERRAT_24=y
 # Commenting out both will display my lcd brightness example
 # DE: Entweder setzen Sie (CONFIG_LV_USE_DEMO_BENCHMARK und CONFIG_LV_USE_DEMO_WIDGETS) oder CONFIG_LV_USE_DEMO_STRESS auf y
 # Wenn man beide auskommentiert, wird mein Beispiel für die Helligkeit des LCD-Bildschirms angezeigt.
-CONFIG_LV_USE_DEMO_STRESS=n
+# CONFIG_LV_USE_DEMO_STRESS=n
 
 # both options below are required for benchmark
 # DE: beide Optionen unten sind für den Benchmark erforderlich
-CONFIG_LV_USE_DEMO_BENCHMARK=n
-CONFIG_LV_USE_DEMO_WIDGETS=n
+# CONFIG_LV_USE_DEMO_BENCHMARK=n
+# CONFIG_LV_USE_DEMO_WIDGETS=n

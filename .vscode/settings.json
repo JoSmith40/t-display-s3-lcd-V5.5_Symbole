@@ -1,5 +1,11 @@
 {
       "idf.port": "/dev/tty.usbmodem14501",
       "idf.flashType": "UART",
-      "C_Cpp.default.compilerPath": "/usr/bin/clang"
+      "C_Cpp.default.compilerPath": "/usr/bin/clang",
+      "idf.espIdfPath": "/Users/juergen/esp/esp-idf",
+      "idf.espIdfPathWin": "/Users/juergen/esp/esp-idf",
+      "files.associations": {
+            "*.c": "c",
+            "button_gpio.h": "c"
+      }
 }

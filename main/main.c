@@ -9,12 +9,13 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "t_display_s3.h"
-#include "iot_button.h"
-#include "button_gpio.h"
+//#include "iot_button.h"
+//#include "button_gpio.h"
 
 
 #define TAG "main"
 
+/*
 // used for setup_test_ui() function
 char *power_icon = LV_SYMBOL_POWER;
 int battery_voltage;
@@ -36,10 +37,6 @@ char *audio_icon = LV_SYMBOL_AUDIO;
 char *video_icon = LV_SYMBOL_VIDEO;
 char *list_icon = LV_SYMBOL_LIST;
 
-
-TaskHandle_t lcd_brightness_task_hdl;
-esp_timer_handle_t lcd_brightness_timer_hdl;
-
 // lvgl ui elements
 lv_obj_t *side_bar;
 lv_obj_t *top_bar;
@@ -56,46 +53,24 @@ lv_obj_t *lbl_gps_icon;
 lv_obj_t *lbl_audio_icon;
 lv_obj_t *lbl_video_icon;
 lv_obj_t *lbl_list_icon;
+*/
+lv_obj_t *bottom_bar;
+
+
+
+TaskHandle_t lcd_brightness_task_hdl;
+esp_timer_handle_t lcd_brightness_timer_hdl;
+
 
 
 void ui_init() {
-    side_bar = lv_obj_create(lv_screen_active());
-    lv_obj_set_width(side_bar, 50);
-    lv_obj_set_height(side_bar, LCD_V_RES);
-    lv_obj_remove_flag(side_bar, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_style_radius(side_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(side_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(side_bar, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(side_bar, lv_color_hex(0x88EE77), LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    top_bar = lv_obj_create(lv_screen_active());
-    lv_obj_align(top_bar, LV_ALIGN_TOP_RIGHT, 0, 0);
-    lv_obj_set_width(top_bar, LCD_H_RES - 50);
-    lv_obj_set_height(top_bar, 40);
-    lv_obj_remove_flag(top_bar, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_style_radius(top_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(top_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(top_bar, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(top_bar, lv_color_hex(0xFFDDB3), LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    lbl_power_mode = lv_label_create(top_bar);
-    lv_obj_align(lbl_power_mode, LV_ALIGN_TOP_LEFT, 0, -10); // Horizontal, Vertikal alignment
-
-
-    lbl_voltage = lv_label_create(top_bar);
-    lv_obj_align(lbl_voltage, LV_ALIGN_TOP_RIGHT, 0, 5);
-
-    lbl_power_icon = lv_label_create(top_bar);
-    lv_obj_align(lbl_power_icon, LV_ALIGN_BOTTOM_RIGHT, 0, -10);
-
-
-    lbl_battery_pct = lv_label_create(top_bar);
-    lv_obj_align(lbl_battery_pct, LV_ALIGN_BOTTOM_LEFT, 0, 5);
 
     bottom_bar = lv_obj_create(lv_screen_active());
     lv_obj_align(bottom_bar, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
-    lv_obj_set_width(bottom_bar, LCD_H_RES - 50);                                                   // Set width
-    lv_obj_set_height(bottom_bar, 130);
+    //lv_obj_set_width(bottom_bar, LCD_H_RES - 50);
+    //lv_obj_set_height(bottom_bar, 130);
+    lv_obj_set_width(bottom_bar, LCD_H_RES);  //* set width to full screen width
+    lv_obj_set_height(bottom_bar, LCD_V_RES); // set height to full screen height
     lv_obj_remove_flag(bottom_bar, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_style_radius(bottom_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(bottom_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -103,8 +78,8 @@ void ui_init() {
     lv_obj_set_style_bg_color(bottom_bar, lv_color_hex(0xADD8E6), LV_PART_MAIN | LV_STATE_DEFAULT);
 
 
-
-    lbl_wlan_icon = lv_label_create(bottom_bar);
+    /*
+        lbl_wlan_icon = lv_label_create(bottom_bar);
     lv_obj_align(lbl_wlan_icon, LV_ALIGN_TOP_RIGHT, 0, 0);
 
     lbl_bluetooth_icon = lv_label_create(bottom_bar);
@@ -122,18 +97,26 @@ void ui_init() {
     lbl_list_icon = lv_label_create(bottom_bar);
     lv_obj_align(lbl_list_icon, LV_ALIGN_TOP_RIGHT, -125, 0);
 
+    */
+
 
 
 }
 
+/*
 static void update_hw_info_timer_cb(void *arg) {
     battery_voltage = get_battery_voltage();
     on_usb_power = usb_power_voltage(battery_voltage);
     battery_percentage = (int) volts_to_percentage((double) battery_voltage / 1000);
 }
+*/
+
+
+
 
 static void update_ui() {
 
+    /*
     if (on_usb_power) {
         power_icon = LV_SYMBOL_USB;
         lv_label_set_text(lbl_power_mode, "USB Power");
@@ -171,6 +154,8 @@ static void update_ui() {
     lv_label_set_text(lbl_audio_icon, audio_icon);
     lv_label_set_text(lbl_video_icon, video_icon);
     lv_label_set_text(lbl_list_icon, list_icon);
+    */
+
 }
 
 
@@ -192,6 +177,7 @@ static void ui_update_task(void *pvParam) {
 
     // a freeRTOS task should never return ^^^
 }
+
 
 // increment lvgl timer
 static void lvgl_ticker_timer_cb(void *arg)
@@ -254,17 +240,22 @@ void app_main(void) {
     //lcd_init(&disp_handle, false);
     lcd_init(&disp_handle, true);
 
-
+    /*
     // Configure a periodic timer to update the battery voltage, brightness level etc
     const esp_timer_create_args_t periodic_timer_args = {
             .callback = &update_hw_info_timer_cb,
             .name = "update_hw_info_timer"
     };
+    */
 
-    esp_timer_handle_t update_hw_info_timer_handle;
-    ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &update_hw_info_timer_handle));
+
+
+
+    //esp_timer_handle_t update_hw_info_timer_handle;
+    //ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &update_hw_info_timer_handle));
+
     // update the hw info 250 milliseconds
-    ESP_ERROR_CHECK(esp_timer_start_periodic(update_hw_info_timer_handle, 250 * 1000));
+    //ESP_ERROR_CHECK(esp_timer_start_periodic(update_hw_info_timer_handle, 250 * 1000));
 
     // configure a FreeRTOS task, pinned to the second core (core 0 should be used for hw such as wifi, bt etc)
     xTaskCreatePinnedToCore(ui_update_task, "update_ui", 4096 * 2, NULL, 0, NULL, 1);
