@@ -21,21 +21,10 @@
 
 #define TAG "main"
 
-#define NUM_BUTTONS 2
 
-// gpio nums of the buttons
-static gpio_num_t btn_gpio_nums[NUM_BUTTONS] = {
-        BTN_PIN_NUM_1,
-        BTN_PIN_NUM_2,
-};
-
-// store button handles
-button_handle_t btn_handles[NUM_BUTTONS];
 
 // used for setup_test_ui() function
 char *power_icon = LV_SYMBOL_POWER;
-char *lbl_btn_1_value = "";
-char *lbl_btn_2_value = "";
 int battery_voltage;
 int battery_percentage;
 bool on_usb_power = false;
@@ -67,9 +56,6 @@ lv_obj_t *lbl_power_mode;
 lv_obj_t *lbl_battery_pct;
 lv_obj_t *lbl_voltage;
 lv_obj_t *lbl_power_icon;
-lv_obj_t *lbl_btn_1;
-lv_obj_t *lbl_btn_2;
-lv_obj_t *screen_brightness_slider;
 lv_obj_t *screen_brightness;
 
 lv_obj_t *lbl_wlan_icon;
@@ -78,87 +64,6 @@ lv_obj_t *lbl_gps_icon;
 lv_obj_t *lbl_audio_icon;
 lv_obj_t *lbl_video_icon;
 lv_obj_t *lbl_list_icon;
-
-static int get_button_idx(button_handle_t btn_hdl) {
-    for (int i = 0; i < NUM_BUTTONS; i++) {
-        if(btn_handles[i]==btn_hdl) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-// Callback function when buttons are released
-static void button_event_handler_cb(void *arg, void *usr_data) {
-    button_handle_t button_hdl = (button_handle_t) arg;
-    button_event_t btn_event = iot_button_get_event(button_hdl);
-    int btn_idx = get_button_idx(button_hdl);
-
-    ESP_LOGI(TAG, "button %d, event %s", btn_idx, iot_button_get_event_str(btn_event));
-    switch (btn_event) {
-        case BUTTON_PRESS_DOWN:
-        case BUTTON_LONG_PRESS_START:
-        case BUTTON_LONG_PRESS_HOLD:
-            if(btn_idx == 0) {
-                lbl_btn_1_value = LV_SYMBOL_LEFT;
-                lcd_increment_brightness_step();
-            }
-            if(btn_idx == 1) {
-                lbl_btn_2_value = LV_SYMBOL_LEFT;
-                lcd_decrement_brightness_step();
-            }
-            break;
-        default:
-            if(btn_idx == 0) {
-                lbl_btn_1_value = "";;
-            }
-            if(btn_idx == 1) {
-                lbl_btn_2_value = "";;
-            }
-    }
-}
-
-// Function to configure the boo & GPIO14 buttons using espressif/button component
-static void setup_buttons() {
-    for (size_t i = 0; i < NUM_BUTTONS; i++) {
-        ESP_LOGI(TAG, "Configuring button %ld", ((int32_t) i) + 1);
-        button_config_t btn_cfg = {0};
-        button_gpio_config_t btn_gpio_cfg = {
-                .gpio_num = (int32_t) btn_gpio_nums[i],
-                .active_level = 0,
-        };
-        button_handle_t btn_handle;
-        esp_err_t err = iot_button_new_gpio_device(&btn_cfg, &btn_gpio_cfg, &btn_handle);
-        if (err != ESP_OK) {
-            ESP_LOGE(TAG, "error iot_button_new_gpio_device [button %d]: %s", i + 1, esp_err_to_name(err));
-        }
-        if (NULL == btn_handle) {
-            ESP_LOGE(TAG, "Button %d create failed", i + 1);
-        }
-        err = iot_button_register_cb(btn_handle, BUTTON_PRESS_DOWN, NULL, button_event_handler_cb, NULL);
-        if (err != ESP_OK) {
-            ESP_LOGE(TAG, "error iot_button_register_cb [button %d]: %s", i + 1, esp_err_to_name(err));
-        }
-        err = iot_button_register_cb(btn_handle, BUTTON_PRESS_UP, NULL, button_event_handler_cb, NULL);
-        if (err != ESP_OK) {
-            ESP_LOGE(TAG, "error iot_button_register_cb [button %d]: %s", i + 1, esp_err_to_name(err));
-        }
-        button_event_args_t long_press_start_args = {
-                .long_press = {
-                        .press_time = 300,
-                }
-        };
-        err = iot_button_register_cb(btn_handle, BUTTON_LONG_PRESS_START, &long_press_start_args, button_event_handler_cb, NULL);
-        if (err != ESP_OK) {
-            ESP_LOGE(TAG, "error iot_button_register_cb [button %d]: %s", i + 1, esp_err_to_name(err));
-        }
-        err = iot_button_register_cb(btn_handle, BUTTON_LONG_PRESS_HOLD, NULL, button_event_handler_cb, NULL);
-        if (err != ESP_OK) {
-            ESP_LOGE(TAG, "error iot_button_register_cb [button %d]: %s", i + 1, esp_err_to_name(err));
-        }
-        btn_handles[i] = btn_handle;
-    }
-}
 
 
 void ui_init() {
@@ -171,16 +76,10 @@ void ui_init() {
     lv_obj_set_style_bg_opa(side_bar, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(side_bar, lv_color_hex(0x88EE77), LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lbl_btn_1 = lv_label_create(side_bar);
-    lv_obj_align(lbl_btn_1, LV_ALIGN_TOP_MID, 0, 0);
-
-    lbl_btn_2 = lv_label_create(side_bar);
-    lv_obj_align(lbl_btn_2, LV_ALIGN_BOTTOM_MID, 0, 0);
-
     top_bar = lv_obj_create(lv_screen_active());
     lv_obj_align(top_bar, LV_ALIGN_TOP_RIGHT, 0, 0);
     lv_obj_set_width(top_bar, LCD_H_RES - 50);
-    lv_obj_set_height(top_bar, 50);
+    lv_obj_set_height(top_bar, LCD_V_RES - 50);
     lv_obj_remove_flag(top_bar, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_style_radius(top_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(top_bar, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -235,15 +134,6 @@ void ui_init() {
     lv_obj_set_style_bg_opa(bottom_bar, 255, LV_PART_MAIN | LV_STATE_DEFAULT);                      // Full opacity
     lv_obj_set_style_bg_color(bottom_bar, lv_color_hex(0xADD8E6), LV_PART_MAIN | LV_STATE_DEFAULT);
 
-
-    screen_brightness_slider = lv_slider_create(lv_screen_active());
-    lv_obj_set_size(screen_brightness_slider, LCD_H_RES - 100, 25);
-    lv_obj_align(screen_brightness_slider, LV_ALIGN_CENTER, 30, 0);
-    lv_slider_set_range(screen_brightness_slider, 0, 16);
-    screen_brightness = lv_label_create(screen_brightness_slider);
-    lv_obj_align(screen_brightness, LV_ALIGN_CENTER, 0, 0);
-    lv_label_set_text(screen_brightness, "Brightness");
-    lv_slider_set_value(screen_brightness_slider, lcd_get_brightness_step(), LV_ANIM_OFF);
 }
 
 static void update_hw_info_timer_cb(void *arg) {
@@ -253,9 +143,7 @@ static void update_hw_info_timer_cb(void *arg) {
 }
 
 static void update_ui() {
-    lv_label_set_text(lbl_btn_1, lbl_btn_1_value);
-    lv_label_set_text(lbl_btn_2, lbl_btn_2_value);
-    lv_slider_set_value(screen_brightness_slider, lcd_get_brightness_step(), LV_ANIM_OFF);
+
     if (on_usb_power) {
         power_icon = LV_SYMBOL_USB;
         lv_label_set_text(lbl_power_mode, "USB Power");
@@ -396,8 +284,6 @@ void app_main(void) {
 #else
     // otherwise it will show my example
 
-    // configure the buttons
-    setup_buttons();
 
     // Configure a periodic timer to update the battery voltage, brightness level etc
     const esp_timer_create_args_t periodic_timer_args = {
