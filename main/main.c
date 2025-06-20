@@ -51,6 +51,9 @@ char *battery_symbols[5] = {
 char *wlan_icon = LV_SYMBOL_WIFI;
 char *bluetooth_icon = LV_SYMBOL_BLUETOOTH;
 char *gps_icon = LV_SYMBOL_GPS;
+char *audio_icon = LV_SYMBOL_AUDIO;
+char *video_icon = LV_SYMBOL_VIDEO;
+char *list_icon = LV_SYMBOL_LIST;
 
 
 TaskHandle_t lcd_brightness_task_hdl;
@@ -72,6 +75,9 @@ lv_obj_t *screen_brightness;
 lv_obj_t *lbl_wlan_icon;
 lv_obj_t *lbl_bluetooth_icon;
 lv_obj_t *lbl_gps_icon;
+lv_obj_t *lbl_audio_icon;
+lv_obj_t *lbl_video_icon;
+lv_obj_t *lbl_list_icon;
 
 static int get_button_idx(button_handle_t btn_hdl) {
     for (int i = 0; i < NUM_BUTTONS; i++) {
@@ -201,6 +207,15 @@ void ui_init() {
     lbl_gps_icon = lv_label_create(top_bar);
     lv_obj_align(lbl_gps_icon, LV_ALIGN_BOTTOM_RIGHT, -75, 5);
 
+    lbl_audio_icon = lv_label_create(top_bar);
+    lv_obj_align(lbl_audio_icon, LV_ALIGN_BOTTOM_RIGHT, -100, 5);
+
+    lbl_video_icon = lv_label_create(top_bar);
+    lv_obj_align(lbl_video_icon, LV_ALIGN_BOTTOM_RIGHT, -125, 5);
+
+    lbl_list_icon = lv_label_create(top_bar);
+    lv_obj_align(lbl_list_icon, LV_ALIGN_BOTTOM_RIGHT, -150, 5);
+
 
 
 
@@ -272,6 +287,9 @@ static void update_ui() {
     lv_label_set_text(lbl_wlan_icon, wlan_icon);
     lv_label_set_text(lbl_bluetooth_icon, bluetooth_icon);
     lv_label_set_text(lbl_gps_icon, gps_icon);
+    lv_label_set_text(lbl_audio_icon, audio_icon);
+    lv_label_set_text(lbl_video_icon, video_icon);
+    lv_label_set_text(lbl_list_icon, list_icon);
 }
 
 
