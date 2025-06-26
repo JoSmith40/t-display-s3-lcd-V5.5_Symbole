@@ -1,17 +1,18 @@
 dependencies:
   espressif/esp_lvgl_port:
-    component_hash: 7af35e52be4a7f87ebb92d62689d720ab005a4c7b94c25f110e516136c348ceb
+    component_hash: e720c95cf0667554a204591bb5fade4655fb2990465557041200fa44b5bc7556
     dependencies:
     - name: idf
+      require: private
       version: '>=4.4'
     - name: lvgl/lvgl
-      public: true
+      registry_url: https://components.espressif.com
+      require: public
       version: '>=8,<10'
     source:
-      git: https://github.com/espressif/esp-bsp.git
-      path: components/esp_lvgl_port
-      type: git
-    version: 09f0b14ae8b28b46d5e6a5927b1634009954c247
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 2.6.0
   hiruna/esp-idf-aw9364:
     component_hash: 4564086e52d5a39b267243f32cf9318b3ff9ae43180634f533b5a970b8812e8c
     dependencies: []
@@ -36,6 +37,6 @@ direct_dependencies:
 - hiruna/esp-idf-aw9364
 - idf
 - lvgl/lvgl
-manifest_hash: fee158669bd2006cc28b76b7fb8e262f1dd3e9b6356c74de78e3c12166b243c7
+manifest_hash: 8c1f36cb82d6beaec53b21cf2a3d96c74600fcab8ad9f048b4c053f391fb3510
 target: esp32s3
 version: 2.0.0

@@ -1,11 +1,20 @@
 {
-      "idf.port": "/dev/tty.usbmodem14501",
-      "idf.flashType": "UART",
-      "C_Cpp.default.compilerPath": "/usr/bin/clang",
-      "idf.espIdfPath": "/Users/juergen/esp/esp-idf",
-      "idf.espIdfPathWin": "/Users/juergen/esp/esp-idf",
-      "files.associations": {
-            "*.c": "c",
-            "button_gpio.h": "c"
-      }
+  "idf.port": "/dev/tty.usbmodem14201",
+  "idf.flashType": "UART",
+  "C_Cpp.default.compilerPath": "/usr/bin/clang",
+  "idf.espIdfPath": "/Users/juergen/esp/v5.5/esp-idf",
+  "idf.espIdfPathWin": "/Users/juergen/esp/esp-idf",
+  "files.associations": {
+    "*.c": "c"
+  },
+  "editor.defaultFormatter": "espressif.esp-idf-extension",
+  "notebook.defaultFormatter": "espressif.esp-idf-extension",
+  "cmake.cacheInit": null,
+  "idf.toolsPath": "/Users/juergen/.espressif",
+  "idf.pythonInstallPath": "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
+  "idf.monitorPort": "/dev/tty.usbmodem14501",
+  "idf.openOcdConfigs": [
+    "interface/ftdi/esp_ftdi.cfg",
+    "target/esp32s3.cfg"
+  ]
 }

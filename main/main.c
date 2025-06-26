@@ -1,5 +1,7 @@
 // SPDX-FileCopyrightText: © 2025 Hiruna Wijesinghe <hiruna.kawinda@gmail.com>
-// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: © 2025 T-Display-S3 JoSmith40
+// SPDX-FileCopyrightText: © 2025 Espressif Systems (Shanghai) CO LTD
+// SPDX-License-Identifier: MIT/Apache 2.0
 
 #include <stdio.h>
 #include <esp_log.h>
@@ -18,9 +20,9 @@ lv_obj_t *top_bar;
 TaskHandle_t lcd_brightness_task_hdl;
 esp_timer_handle_t lcd_brightness_timer_hdl;
 
-extern lv_obj_t *top_bar;
+lv_obj_t *top_bar;
 
-extern const char *symbols[] = {
+const char *symbols[] = {
     LV_SYMBOL_BULLET,
     LV_SYMBOL_AUDIO,
     LV_SYMBOL_VIDEO,
